@@ -177,7 +177,8 @@ The **Webhook Queue Dashboard** provides real-time monitoring of metrics and que
 
 ## Dashboard Screenshots
 <img width="1363" alt="Captura de pantalla 2024-10-27 a la(s) 18 07 26" src="https://github.com/user-attachments/assets/61eeb87f-d9a8-404d-a318-960a7e5bd0ab">
-<img width="702" alt="Captura de pantalla 2024-10-27 a la(s) 18 07 41" src="https://github.com/user-attachments/assets/1d3ca38a-a0ba-4616-9d1d-c65f70a3c187">
+
+<img width="1332" alt="Captura de pantalla 2024-10-27 a la(s) 18 25 58" src="https://github.com/user-attachments/assets/4c335c4b-102a-4fd7-8498-20b85e367280">
 
 ## Logging
 
