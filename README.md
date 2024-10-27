@@ -138,13 +138,6 @@ This project includes both unit and integration tests, with isolated Redis insta
 
 ### Running Tests
 
-To run tests in an isolated environment:
-
-```bash
-docker-compose up --abort-on-container-exit test-runner
-```
-
-The `test-runner` container will execute all tests and then stop, ensuring tests don’t interfere with the main application. Results will be displayed in the console.
 
 ### Adding Tests
 
@@ -156,7 +149,6 @@ Tests are organized into `unit` and `integration` categories:
 To add a new test:
 1. Create a new file in the appropriate directory (`unit` or `integration`).
 2. Write your test logic using Jest.
-3. Run `docker-compose up --abort-on-container-exit test-runner` to verify your test.
 
 ---
 
@@ -195,5 +187,3 @@ Log levels are set based on the environment:
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ---
-
-This README provides a comprehensive overview of the system, including setup, usage, testing, and real-time monitoring via the automatically refreshing dashboard.
