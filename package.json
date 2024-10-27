@@ -1,0 +1,30 @@
+{
+  "name": "queue-processor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "docker compose up --build",
+    "build": "docker compose build",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
+    "posttest": "docker compose down --remove-orphans",  
+    "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --coverage tests/unit",
+    "test:integration": "jest --coverage tests/integration",
+    "stop": "docker compose down"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "redis": "^4.7.0",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "winston": "^3.15.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}

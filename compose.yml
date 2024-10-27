@@ -1,0 +1,90 @@
+services:
+  redis:
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    networks:
+      - internal_network
+      - external_network
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: always
+
+  redis-test:
+    image: redis:latest
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    networks:
+      - internal_network
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_test_data:/data
+    restart: always
+
+  producer:
+    build:
+      context: .
+      target: producer
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    networks:
+      - internal_network
+    depends_on:
+      - redis
+    deploy:
+      replicas: 3
+    restart: on-failure
+
+  consumer:
+    build:
+      context: .
+      target: consumer
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - BACKOFF_BASE=${BACKOFF_BASE}
+      - MAX_RETRIES=${MAX_RETRIES}
+    networks:
+      - internal_network
+    depends_on:
+      - redis
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+
+  dashboard:
+    build:
+      context: .
+      target: dashboard
+    ports:
+      - "${DASHBOARD_PORT:-8080}:8080"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - DASHBOARD_API_KEY=${DASHBOARD_API_KEY}
+    networks:
+      - internal_network
+      - external_network
+    depends_on:
+      - redis
+    restart: on-failure
+
+networks:
+  internal_network:
+    driver: bridge
+  external_network:
+    driver: bridge
+
+volumes:
+  redis_data:
+  redis_test_data:
