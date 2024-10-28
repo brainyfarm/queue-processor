@@ -2,3 +2,9 @@ node_modules
 coverage
 .env
 logs
+copyall.txt
+.copyallignore
+copyall/
+copyall.txt
+copyall.sh
+project_summary.txt

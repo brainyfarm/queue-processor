@@ -1,4 +1,6 @@
+import logger from '../lib/logger/logger.js';
+
 import { startProduction } from './producer.js';
 
-console.log('Starting job production...');
+logger.info('Starting job production...');
 startProduction();

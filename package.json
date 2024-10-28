@@ -8,7 +8,7 @@
     "start": "docker compose up --build",
     "build": "docker compose build",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest --coverage",
-    "posttest": "docker compose down --remove-orphans",  
+    "posttest": "docker compose down --remove-orphans",
     "test:unit": "NODE_OPTIONS=--experimental-vm-modules jest --coverage tests/unit",
     "test:integration": "jest --coverage tests/integration",
     "stop": "docker compose down"
@@ -26,5 +26,15 @@
   },
   "devDependencies": {
     "jest": "^29.7.0"
+  },
+  "jest": {
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest.setup.js"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/dist/"
+    ]
   }
 }

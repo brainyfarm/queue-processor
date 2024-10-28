@@ -1,24 +1,16 @@
-import redisClient from './client/client.js';
+// src/lib/init.js
+
+import redisQueue from './queue/redisQueue.js';
 import logger from './logger/logger.js';
 
-export const initializeMetric = async (key, value = '0') => {
+/**
+ * Initializes queue metrics and prepares the queue for operation.
+ */
+export const initializeQueue = async () => {
   try {
-    const exists = await redisClient.exists(key);
-    if (!exists) {
-      await redisClient.set(key, value);
-    }
+    await redisQueue.resetMetrics();
+    logger.info('Queue metrics have been successfully initialized.');
   } catch (error) {
-    logger.error(`Error initializing metric ${key}: ${error.message}`);
-  }
-};
-
-export const initializeDLQ = async () => {
-  try {
-    const dlqType = await redisClient.type('deadLetterQueue');
-    if (dlqType !== 'list' && dlqType !== 'none') {
-      await redisClient.del('deadLetterQueue');
-    }
-  } catch (error) {
-    logger.error(`Error initializing Dead Letter Queue: ${error.message}`);
+    logger.error(`Error initializing queue metrics: ${error.message}`);
   }
 };

@@ -1,16 +1,21 @@
+
 import { handleRetry } from './retry.js';
-import { incrementProcessedJobs, incrementFailedJobs } from '../lib/queue/metrics.js';
 import logger from '../lib/logger/logger.js';
 
-export const processJob = async (job) => {
+/**
+ * Processes an individual job, attempting to send the webhook and handling retries if it fails.
+ * @param {Object} job - The job to process.
+ * @param {number} attempt - The current attempt count for this job.
+ */
+export const processJob = async (job, attempt = 1) => {
+  logger.info(`Processing job: ${job.name} for event: ${job.event}`);
+  
   try {
     await sendWebhook(job);
-    await incrementProcessedJobs(); 
     logger.info(`Job processed successfully: ${job.name} for event: ${job.event}`);
   } catch (error) {
     logger.error(`Job processing failed for ${job.name}. Error: ${error.message}`);
-    await incrementFailedJobs();
-    await handleRetry(job);
+    await handleRetry(job, attempt);
   }
 };
 
@@ -21,7 +26,7 @@ export const processJob = async (job) => {
  */
 const sendWebhook = async (job) => {
   logger.info(`Sending webhook for ${job.name} at ${job.url}`);
-  
+
   // Simulate a failure for specific URLs to trigger retry logic
   if (job.url.includes('fail')) {
     throw new Error(`Failed to send webhook to ${job.url}`);

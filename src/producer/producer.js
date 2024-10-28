@@ -3,6 +3,9 @@ import { webhookJobs } from './data.js';
 import { PRODUCTION_INTERVAL } from '../lib/config/config.js';
 import logger from '../lib/logger/logger.js';
 
+/**
+ * Starts producing jobs by adding them to the queue at a fixed interval.
+ */
 export const startProduction = () => {
   let index = 0;
 
